@@ -1,6 +1,6 @@
 import "./picksenior.scss"
 
-const SeniorPick =({setOpenPickSenior,seniorList})=>{
+const SeniorPick =({setOpenPickSenior,setOpenSuccessPage,seniorList})=>{
     return (
         <div className={"pick"}>
             <div className="wrapper">
@@ -19,7 +19,7 @@ const SeniorPick =({setOpenPickSenior,seniorList})=>{
                         ))
                     }
                     </div>
-                    <button>Confirm</button>
+                    <button onClick={()=>{setOpenPickSenior(false); setOpenSuccessPage(true);}}>Confirm</button>
                 </form>
                 <button className="close" onClick={ ()=> setOpenPickSenior(false) }>
                     close

@@ -2,7 +2,7 @@ import "./childprofile.scss";
 
 const ChildProfile=({setOpenChildProfile,child})=>{
     return (
-        <div className={"profile"}>
+        <div className={"prof"}>
             <div className="wrapper">
                 <h1>Child Profile</h1>
                 <label> Name : {child.name}</label>
