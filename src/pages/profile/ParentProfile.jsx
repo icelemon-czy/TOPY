@@ -4,8 +4,9 @@ import PetReg from "../../components/registration/PetReg";
 import ChildReg from "../../components/registration/ChildReg";
 import SeniorMatch from "../../components/Match/SeniorMatch";
 import SeniorPick from "../../components/pick/PickSenior";
-import ChildProfile from "../../components/Profile/ChildProfile";
-import PetProfile from "../../components/Profile/PetProfile";
+import ChildProfile from "../../components/profile/ChildProfile";
+import PetProfile from "../../components/profile/PetProfile";
+
 const ParentProfile= () => {
     const currentUser = {
         name: "Sara",

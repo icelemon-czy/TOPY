@@ -1,6 +1,4 @@
 import "./seniormatch.scss";
-import {useState} from "react";
-import SeniorPick from "../pick/PickSenior";
 const SeniorMatch=({setSeniorMatch,setOpenPickSenior,childList,petList})=>{
     const today = new Date();
     const dd = String(today.getDate()).padStart(2, '0');
@@ -20,9 +18,9 @@ const SeniorMatch=({setSeniorMatch,setOpenPickSenior,childList,petList})=>{
                             <div>
                             {
                                 childList.map((child,i)=>(
-                                    <div key={i}>
-                                        <label>{child.name}</label>
+                                    <div className={"list"} key={i}>
                                         <input type={"checkbox"} />
+                                        <label>{child.name}</label>
                                     </div>
                                 ))
                             }
@@ -33,9 +31,9 @@ const SeniorMatch=({setSeniorMatch,setOpenPickSenior,childList,petList})=>{
                             <div>
                             {
                                 petList.map((pet,i)=>(
-                                    <div key={i}>
-                                        <label>{pet.name}</label>
+                                    <div className={"list"} key={i}>
                                         <input type={"checkbox"} />
+                                        <label>{pet.name}</label>
                                     </div>
                                 ))
                             }

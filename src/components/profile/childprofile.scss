@@ -4,8 +4,8 @@
   left: 0;
   width: 100vw;
   height: 100vh;
-  background-color: rgba(0, 0, 0, 0.5);
   display: flex;
+  background-color: transparent;
   align-items: center;
   justify-content: center;
   z-index: 999;
@@ -28,12 +28,13 @@
       color: Black;
     }
 
+
     label {
-      display: flex;
-      flex-direction: column;
-      gap: 10px;
-      color: gray;
-      font-size: 14px;
+        display: flex;
+        flex-direction: column;
+        gap: 10px;
+        color: gray;
+        font-size: 14px;
     }
 
     .close {
