@@ -1,6 +1,6 @@
 import React, {useState} from "react"
 import "./seniorregister.scss"
-// import { Link } from "react-router-dom";
+import { Link } from "react-router-dom";
 // import axios from "axios";
 
 const SeniorRegister = () => {
@@ -42,9 +42,9 @@ const SeniorRegister = () => {
                         DO you need Child Care Service?
                     </p>
                     <span>Do you have an account?</span>
-                    {/*<Link to={"/login"}>*/}
+                    <Link to={"/login"}>
                         <button>Login</button>
-                    {/*</Link>*/}
+                    </Link>
                 </div>
                 <div className="right">
                     <h1>Senior Register</h1>

@@ -1,5 +1,6 @@
 import React, {useContext, useState} from "react"
 import "./login.scss"
+import {Link} from "react-router-dom";
 // import {Link, useNavigate} from "react-router-dom";
 // import {AuthContext} from "../../context/authContext";
 
@@ -43,11 +44,12 @@ const Login =() => {
                         DO you need Child Care Service?
                     </p>
                     <span>Don't you have an account?</span>
-                    {/*<Link to={"/register"}>*/}
-                    {/*    <button> Register </button>*/}
-                    {/*</Link>*/}
-                    <button>Senior Register</button>
-                    <button>Parent Register</button>
+                    <Link to={"/seniorregister"}>
+                        <button>Senior Register</button>
+                    </Link>
+                    <Link to={"/parentregister"}>
+                        <button>Parent Register</button>
+                    </Link>
                 </div>
                 <div className={"right"}>
                     <h1>Login</h1>
