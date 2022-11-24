@@ -2,7 +2,7 @@ import "./petreg.scss";
 
 const PetReg =({setPetReg})=>{
     return (
-        <div className={"register"}>
+        <div className={"reg"}>
             <div className="wrapper">
                 <h1>Register Pet</h1>
                 <form>

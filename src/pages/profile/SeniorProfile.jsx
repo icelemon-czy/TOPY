@@ -10,7 +10,7 @@ const SeniorProfile= () => {
     const freeTimeList = [[2023,1,3,14,16],[2023,1,4,15,16]]
     const matches = [1,2,3]
 
-    const [openSignUp,setOpenSignUp] = useState(true);
+    const [openSignUp,setOpenSignUp] = useState(false);
 
     return (
         <div className={"profile"}>

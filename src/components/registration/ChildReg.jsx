@@ -2,7 +2,7 @@ import "./childreg.scss";
 
 const ChildReg =({setChildReg})=>{
     return (
-        <div className={"register"}>
+        <div className={"reg"}>
             <div className="wrapper">
                 <h1>Register Child</h1>
                 <form>

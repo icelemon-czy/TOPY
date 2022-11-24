@@ -8,6 +8,7 @@ import ChildProfile from "../../components/profile/ChildProfile";
 import PetProfile from "../../components/profile/PetProfile";
 import SuccessPage from "../../components/Congra/SuccessPage";
 import MatchProfile from "../../components/profile/MatchProfile";
+import PickUp from "../../components/PickUp/PickUp";
 
 const ParentProfile= () => {
     const currentUser = {
@@ -51,6 +52,7 @@ const ParentProfile= () => {
 
     const [openChildReg,setChildReg] = useState(false);
     const [openPetReg,setPetReg] = useState(false);
+
     const [openSeniorMatch,setSeniorMatch] = useState(false);
     const [openPickSenior,setOpenPickSenior] = useState(false);
     const [openSuccessPage,setOpenSuccessPage] = useState(false);
@@ -62,6 +64,8 @@ const ParentProfile= () => {
     const [clickedPet,setClickPet] = useState(petList[0]);
     const [openMatchProfile,setOpenMatchProfile] = useState(false);
     const [clickedMatch,setClickMatch] = useState(petList[0]);
+
+    const [openPickUp,setOpenPickUp] = useState(false);
 
     const handleClickChild =(child)=>{
         setClickChild(child);
@@ -92,7 +96,11 @@ const ParentProfile= () => {
                     </span>
                     {
                         childList.map((child,i)=>(
-                            <span style={{borderBottom:"groove",padding:"5px"}} key={i} onClick={()=>handleClickChild(child)}>
+                            <span
+                                className={"clist"}
+                                style={{borderBottom:"groove",padding:"5px"}}
+                                key={i}
+                                onClick={()=>handleClickChild(child)}>
                                 {child.name}
                             </span>
                         ))
@@ -105,7 +113,11 @@ const ParentProfile= () => {
                     </span>
                     {
                         petList.map((pet,i)=>(
-                            <span style={{borderBottom:"groove",padding:"5px"}} key={i} onClick={()=>handleClickPet(pet)}>
+                            <span
+                                className={"plist"}
+                                style={{borderBottom:"groove",padding:"5px"}}
+                                key={i}
+                                onClick={()=>handleClickPet(pet)}>
                                 {pet.name}
                             </span>
                         ))
@@ -120,6 +132,7 @@ const ParentProfile= () => {
                     {
                         matches.map((match,i)=>(
                             <span
+                                className={"mlist"}
                                 style={{borderBottom:"groove",padding:"5px"}}
                                 key={i}
                                 onClick={()=>handleClickMatch(match)}>
@@ -139,7 +152,7 @@ const ParentProfile= () => {
                 <button onClick={()=>{setSeniorMatch(true)}}>
                     Find a senior
                 </button>
-                <button>
+                <button onClick={()=>{setOpenPickUp(true)}}>
                     Pick Up
                 </button>
                 <button>
@@ -157,6 +170,8 @@ const ParentProfile= () => {
             {openChildProfile && <ChildProfile setOpenChildProfile={setOpenChildProfile} child={clickedChild}/>}
             {openPetProfile && <PetProfile setOpenPetProfile={setOpenPetProfile} pet={clickedPet}/> }
             {openMatchProfile &&<MatchProfile setOpenMatchProfile={setOpenMatchProfile} match={clickedMatch} />}
+
+            {openPickUp && <PickUp setOpenPickUp={setOpenPickUp} matches={matches} />}
         </div>
     )
 }

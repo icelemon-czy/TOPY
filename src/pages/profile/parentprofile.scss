@@ -29,6 +29,9 @@
       border-style: solid;
       display: flex;
       flex-direction: column;
+      .clist{
+        cursor:pointer;
+      }
     }
     .petList{
       height: 20vh;
@@ -36,6 +39,9 @@
       border-style: solid;
       display: flex;
       flex-direction: column;
+      .plist{
+        cursor:pointer;
+      }
     }
     .scheduleList{
       height: 20vh;
@@ -43,6 +49,9 @@
       border-style: solid;
       display: flex;
       flex-direction: column;
+      .mlist{
+        cursor:pointer;
+      }
     }
   }
 

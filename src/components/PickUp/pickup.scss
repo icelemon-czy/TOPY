@@ -1,4 +1,4 @@
-.reg{
+.pickup{
   position: fixed;
   top: 0;
   left: 0;
@@ -18,7 +18,7 @@
     z-index: 999;
     display: flex;
     flex-direction: column;
-    gap: 20px;
+    gap: 10px;
     -webkit-box-shadow: 0px 0px 15px 1px rgba(0, 0, 0, 0.09);
     -moz-box-shadow: 0px 0px 15px 1px rgba(0, 0, 0, 0.09);
     box-shadow: 0px 0px 15px 1px rgba(0, 0, 0, 0.09);
@@ -33,27 +33,22 @@
       flex-direction: column;
       gap: 20px;
 
-      .radio{
+      .checkbox{
         display: flex;
         flex-direction: row;
         color: gray;
         font-size: 14px;
       }
-
+      .list{
+        display: flex;
+        flex-direction: row;
+      }
       label {
         display: flex;
         flex-direction: column;
         gap: 10px;
         color: gray;
         font-size: 14px;
-      }
-
-      input {
-        padding: 5px;
-        border: none;
-        border-bottom: 1px solid;
-        color: gray;
-        background-color: transparent;
       }
 
       button {
