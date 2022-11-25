@@ -63,7 +63,7 @@ const ParentProfile= () => {
     const [openPetProfile,setOpenPetProfile] = useState(false);
     const [clickedPet,setClickPet] = useState(petList[0]);
     const [openMatchProfile,setOpenMatchProfile] = useState(false);
-    const [clickedMatch,setClickMatch] = useState(petList[0]);
+    const [clickedMatch,setClickMatch] = useState(matches[0]);
 
     const [openPickUp,setOpenPickUp] = useState(false);
 

@@ -32,7 +32,7 @@ const SeniorRegister = () => {
 
 
     return (
-        <div className="register">
+        <div className="seniorregister">
             <div className="card">
                 <div className="left">
                     <h1>Welcome TOPY</h1>

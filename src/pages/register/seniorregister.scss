@@ -1,4 +1,4 @@
-.register{
+.seniorregister{
   height: 100vh;
   background-color: rgb(193,190,255);
   display: flex;
@@ -19,7 +19,7 @@
       gap: 30px;
 
       /*How center works,linear-gradient works*/
-      background: linear-gradient(rgba(39,11,96,0.5),rgba(39,11,96,0.5)),url("https://images.pexels.com/photos/4881619/pexels-photo-4881619.jpeg?auto=compress&cs=tinysrgb&w=1600") center;
+      background: linear-gradient(rgba(39,11,96,0.5),rgba(39,11,96,0.5)),url("../../images/toy.jpg") center;
       /* The background-size CSS property sets the size of the element's background image.  */
       background-size: cover; /*Cover all... */
 

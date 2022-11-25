@@ -1,6 +1,7 @@
 import React,{useState} from "react"
 import "./seniorprofile.scss"
 import SignUpTimeSlot from "../../components/signup/SignUpTimeSlot";
+import MatchProfile from "../../components/profile/MatchProfile";
 const SeniorProfile= () => {
     const currentUser = {
         name: "Max Rober",
@@ -8,9 +9,27 @@ const SeniorProfile= () => {
         phone: "123-456-789",
     };
     const freeTimeList = [[2023,1,3,14,16],[2023,1,4,15,16]]
-    const matches = [1,2,3]
+    const matches = [
+        {
+            id:1,
+            pet:"Jimmy",
+            child:"",
+            senior:"Mark Rober",
+            date:"2023-1-1",
+            start:"14",
+            end:"16",
+        }
+    ];
 
     const [openSignUp,setOpenSignUp] = useState(false);
+
+    const [openMatch,setOpenMatch] = useState(false);
+    const [clickedMatch,setClickMatch] = useState(matches[0]);
+
+    const handleClickMatch =(match)=>{
+        setClickMatch(match);
+        setOpenMatch(true);
+    }
 
     return (
         <div className={"profile"}>
@@ -40,9 +59,15 @@ const SeniorProfile= () => {
                     </span>
 
                     {
-                        matches.map((match,i)=>(<span style={{borderBottom:"groove",padding:"5px"}} key={i}>
-                            {"Match"+match}
-                        </span>))
+                        matches.map((match,i)=>(
+                            <span
+                                style={{borderBottom:"groove",padding:"5px"}}
+                                key={i}
+                                onClick={()=>handleClickMatch(match)}
+                            >
+                            {"Match"+match.id}
+                            </span>
+                        ))
                     }
                 </div>
             </div>
@@ -55,6 +80,7 @@ const SeniorProfile= () => {
                 </button>
             </div>
             {openSignUp && <SignUpTimeSlot setOpenSignUp={setOpenSignUp}/>}
+            {openMatch &&<MatchProfile setOpenMatchProfile={setOpenMatch} match={clickedMatch} />}
         </div>
     )
 }
