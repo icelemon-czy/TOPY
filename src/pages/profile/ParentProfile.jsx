@@ -15,7 +15,11 @@ const ParentProfile= () => {
         name: "Sara",
         location: "Pittsburgh",
         phone: "123-456-789",
+        email:"xiguo@gmail.com",
+        age:"35",
+        gender:"male",
     };
+
     const childList= [
         {
             id:1,
@@ -30,6 +34,7 @@ const ParentProfile= () => {
             gender: 1,
         },
     ];
+
     const petList=[
         {
             id:1,
@@ -37,6 +42,7 @@ const ParentProfile= () => {
             type: "Dog",
         },
     ];
+
     const matches = [
         {
             id:1,
@@ -87,8 +93,11 @@ const ParentProfile= () => {
             <div className={"middle"}>
                 <div className={"Info"}>
                     <span> Name :{currentUser.name}</span>
+                    <span> Age: {currentUser.age}</span>
+                    <span> Gender: {currentUser.gender}</span>
                     <span> Location : {currentUser.location}</span>
                     <span> Phone: {currentUser.phone}</span>
+                    <span> Email:{currentUser.email}</span>
                 </div>
                 <div className={"childList"}>
                     <span style={{borderBottom:"solid",padding:"5px"}}>
