@@ -13,7 +13,7 @@ import PickUp from "../../components/PickUp/PickUp";
 const ParentProfile= () => {
     const currentUser = {
         name: "Sara",
-        location: "Pittsburgh",
+        address: "Pittsburgh",
         phone: "123-456-789",
         email:"xiguo@gmail.com",
         age:"35",
@@ -95,7 +95,7 @@ const ParentProfile= () => {
                     <span> Name :{currentUser.name}</span>
                     <span> Age: {currentUser.age}</span>
                     <span> Gender: {currentUser.gender}</span>
-                    <span> Location : {currentUser.location}</span>
+                    <span> Address : {currentUser.address}</span>
                     <span> Phone: {currentUser.phone}</span>
                     <span> Email:{currentUser.email}</span>
                 </div>
