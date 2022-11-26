@@ -1,4 +1,4 @@
-import React, {useState} from "react";
+import React, {useContext,useState} from "react";
 import "./parentprofile.scss"
 import PetReg from "../../components/registration/PetReg";
 import ChildReg from "../../components/registration/ChildReg";
@@ -10,38 +10,24 @@ import SuccessPage from "../../components/Congra/SuccessPage";
 import MatchProfile from "../../components/profile/MatchProfile";
 import PickUp from "../../components/PickUp/PickUp";
 
+import {AuthContext} from "../../context/authContext";
+import {makeRequest} from "../../axios";
+import {useQuery} from "@tanstack/react-query";
+
 const ParentProfile= () => {
-    const currentUser = {
-        name: "Sara",
-        address: "Pittsburgh",
-        phone: "123-456-789",
-        email:"xiguo@gmail.com",
-        age:"35",
-        gender:"male",
-    };
+    const {currentUser} = useContext(AuthContext);
 
-    const childList= [
-        {
-            id:1,
-            name:"David",
-            age: 4,
-            gender: 0,
-        },
-        {
-            id:2,
-            name:"Felix",
-            age: 6,
-            gender: 1,
-        },
-    ];
+    // Query Children
+    const { isLoading:cIsLoading, error:cError, data:childList } = useQuery(
+        ['child'],
+        () => makeRequest.get("/child?pid="+currentUser.id).then((res)=>{return res.data})
+    );
 
-    const petList=[
-        {
-            id:1,
-            name:"Jimmy",
-            type: "Dog",
-        },
-    ];
+    // Query Pets
+    const { isLoading:pIsLoading, error:pError, data:petList } = useQuery(
+        ['pet'],
+        () => makeRequest.get("/pet?pid="+currentUser.id).then((res)=>{return res.data})
+    );
 
     const matches = [
         {
@@ -62,14 +48,14 @@ const ParentProfile= () => {
     const [openSeniorMatch,setSeniorMatch] = useState(false);
     const [openPickSenior,setOpenPickSenior] = useState(false);
     const [openSuccessPage,setOpenSuccessPage] = useState(false);
-    const [selectedMatch,setSelectedMatch] = useState(matches[0]);
+    const [selectedMatch,setSelectedMatch] = useState(null);
 
     const [openChildProfile,setOpenChildProfile] = useState(false);
-    const [clickedChild,setClickChild] = useState(childList[0]);
+    const [clickedChild,setClickChild] = useState(null);
     const [openPetProfile,setOpenPetProfile] = useState(false);
-    const [clickedPet,setClickPet] = useState(petList[0]);
+    const [clickedPet,setClickPet] = useState(null);
     const [openMatchProfile,setOpenMatchProfile] = useState(false);
-    const [clickedMatch,setClickMatch] = useState(matches[0]);
+    const [clickedMatch,setClickMatch] = useState(null);
 
     const [openPickUp,setOpenPickUp] = useState(false);
 
@@ -99,39 +85,44 @@ const ParentProfile= () => {
                     <span> Phone: {currentUser.phone}</span>
                     <span> Email:{currentUser.email}</span>
                 </div>
-                <div className={"childList"}>
-                    <span style={{borderBottom:"solid",padding:"5px"}}>
-                        Child List
-                    </span>
-                    {
-                        childList.map((child,i)=>(
-                            <span
-                                className={"clist"}
-                                style={{borderBottom:"groove",padding:"5px"}}
-                                key={i}
-                                onClick={()=>handleClickChild(child)}>
-                                {child.name}
+                {
+                    cIsLoading ? "Children List Is Loading" :
+                        <div className={"childList"}>
+                            <span style={{borderBottom: "solid", padding: "5px"}}>
+                                Child List
                             </span>
-                        ))
-                    }
-                </div>
-
-                <div className={"petList"}>
-                    <span style={{borderBottom:"solid",padding:"5px"}}>
-                        Pet List
-                    </span>
-                    {
-                        petList.map((pet,i)=>(
-                            <span
-                                className={"plist"}
-                                style={{borderBottom:"groove",padding:"5px"}}
-                                key={i}
-                                onClick={()=>handleClickPet(pet)}>
-                                {pet.name}
+                            {
+                                childList.map((child, i) => (
+                                    <span
+                                        className={"clist"}
+                                        style={{borderBottom: "groove", padding: "5px"}}
+                                        key={i}
+                                        onClick={() => handleClickChild(child)}>
+                                    {child.name}
+                                    </span>
+                                ))
+                            }
+                        </div>
+                }
+                {
+                    pIsLoading ?"Pet List Is Loading" :
+                        <div className={"petList"}>
+                            <span style={{borderBottom:"solid",padding:"5px"}}>
+                                Pet List
                             </span>
-                        ))
-                    }
-                </div>
+                            {
+                                petList.map((pet,i)=>(
+                                    <span
+                                        className={"plist"}
+                                        style={{borderBottom:"groove",padding:"5px"}}
+                                        key={i}
+                                        onClick={()=>handleClickPet(pet)}>
+                                        {pet.name}
+                                    </span>
+                                ))
+                            }
+                        </div>
+                }
 
 
                 <div className={"scheduleList"}>

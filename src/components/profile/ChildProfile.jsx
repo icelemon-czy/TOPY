@@ -7,7 +7,7 @@ const ChildProfile=({setOpenChildProfile,child})=>{
                 <h1>Child Profile</h1>
                 <label> Name : {child.name}</label>
                 <label>Age : {child.age}</label>
-                <label>Gender : {child.gender == 0 ? "Boy" : "Girl"}</label>
+                <label>Gender : {child.gender == "male" ? "Boy" : "Girl"}</label>
                 <button className="close" onClick={ ()=> setOpenChildProfile(false) }>
                     close
                 </button>

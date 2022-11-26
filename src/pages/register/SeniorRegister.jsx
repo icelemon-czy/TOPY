@@ -1,15 +1,18 @@
 import React, {useState} from "react"
 import "./seniorregister.scss"
 import { Link } from "react-router-dom";
-// import axios from "axios";
+import axios from "axios";
 
 const SeniorRegister = () => {
     const[inputs,setInputs] = useState({
-        username:"",
+        name:"",
+        password:"",
         email:"",
         age:"",
-        password:"",
-        name:"",
+        allergy:"",
+        gender:"",
+        phone:"",
+        address:"",
     });
     const[err,setErr] = useState(null);
 
@@ -23,8 +26,8 @@ const SeniorRegister = () => {
     const handleClick = async (e) =>{
         e.preventDefault();
         try {
-           //  await axios.post("http://localhost:8800/api/auth/register", inputs);
-            setErr(null);
+            await axios.post("http://localhost:8801/api/auth/senior/register", inputs);
+            setErr("Register Success! ");
         } catch (err) {
             setErr(err.response.data);
         }
@@ -49,13 +52,15 @@ const SeniorRegister = () => {
                 <div className="right">
                     <h1>Senior Register</h1>
                     <form>
-                        <input type="text" placeholder="Username" name={"username"} onChange={handleChange}/>
+                        <input type="text" placeholder="Username" name={"name"} onChange={handleChange}/>
                         <input type="password" placeholder="Password" name={"password"} onChange={handleChange}/>
                         <input type="email" placeholder="Email" name={"email"} onChange={handleChange}/>
                         <input type={"number"} placeholder={"Age"} name={"age"} onChange={handleChange}/>
-                        <input type="text" placeholder="gender" name={"gender"} onChange={handleChange}/>
+                        <input type="text" placeholder="Allergy" name={"allergy"} onChange={handleChange}/>
+                        <input type="text" placeholder="Gender" name={"gender"} onChange={handleChange}/>
                         <input type="text" placeholder="Phone" name={"phone"} onChange={handleChange}/>
                         <input type="text" placeholder="Address" name={"address"} onChange={handleChange}/>
+                        {err && err}
                         <button onClick={handleClick}>Register</button>
                     </form>
                 </div>

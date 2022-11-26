@@ -8,8 +8,11 @@ import {
   Route, Outlet, Navigate,
 } from "react-router-dom";
 import ParentRegister from "./pages/register/ParentRegister";
-
+import { QueryClient, QueryClientProvider} from '@tanstack/react-query';
 function App() {
+
+  const queryClient = new QueryClient();
+
   const router = createBrowserRouter([
     {
       path: "/login",
@@ -25,11 +28,19 @@ function App() {
     },
     {
       path: "/parentProfile",
-      element:<ParentProfile/>
+      element:(
+          <QueryClientProvider client={queryClient}>
+            <ParentProfile/>
+          </QueryClientProvider>
+      )
     },
     {
       path: "/seniorProfile",
-      element:<SeniorProfile/>
+      element:(
+          <QueryClientProvider client={queryClient}>
+            <SeniorProfile/>
+          </QueryClientProvider>
+      )
     },
   ]);
 
