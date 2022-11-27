@@ -35,17 +35,12 @@ const ParentProfile= () => {
         })
     );
 
-    const matches = [
-        {
-            id: 1,
-            pet: "Jimmy",
-            child: "",
-            senior: "Mark Rober",
-            date: "2023-1-1",
-            start: "14",
-            end: "16",
-        }
-    ];
+    // Query Match
+    const { isLoading:mIsLoading, error:mError, data:matches} = useQuery(
+        ['pmatch'],
+        () => makeRequest.get("/match/parent?pid="+currentUser.id).then((res)=>{return res.data})
+    );
+
     const seniorList = ["Mark Rober", "Guga"];
 
     const [openChildReg, setChildReg] = useState(false);
@@ -148,13 +143,14 @@ const ParentProfile= () => {
                         Schedule List
                     </span>
                     {
+                        mIsLoading?"Match is Loading":
                         matches.map((match, i) => (
                             <span
                                 className={"mlist"}
                                 style={{borderBottom: "groove", padding: "5px"}}
                                 key={i}
                                 onClick={() => handleClickMatch(match)}>
-                                {"Match" + match.id}
+                                {"Match " + (i+1)}
                             </span>
                         ))
                     }

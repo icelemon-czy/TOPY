@@ -20,7 +20,7 @@ const SeniorProfile= () => {
 
     // Query Match
     const { isLoading:mIsLoading, error:mError, data:matchList} = useQuery(
-        ['match'],
+        ['smatch'],
         () => makeRequest.get("/match/senior?sid="+currentUser.id).then((res)=>{return res.data})
     );
 
