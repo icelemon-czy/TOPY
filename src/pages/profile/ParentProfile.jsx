@@ -13,64 +13,81 @@ import PickUp from "../../components/PickUp/PickUp";
 import {AuthContext} from "../../context/authContext";
 import {makeRequest} from "../../axios";
 import {useQuery} from "@tanstack/react-query";
+import {useNavigate} from "react-router-dom";
 
 const ParentProfile= () => {
+    const navigate = useNavigate();
     const {currentUser} = useContext(AuthContext);
 
     // Query Children
-    const { isLoading:cIsLoading, error:cError, data:childList } = useQuery(
+    const {isLoading: cIsLoading, error: cError, data: childList} = useQuery(
         ['child'],
-        () => makeRequest.get("/child?pid="+currentUser.id).then((res)=>{return res.data})
+        () => makeRequest.get("/child?pid=" + currentUser.id).then((res) => {
+            return res.data
+        })
     );
 
     // Query Pets
-    const { isLoading:pIsLoading, error:pError, data:petList } = useQuery(
+    const {isLoading: pIsLoading, error: pError, data: petList} = useQuery(
         ['pet'],
-        () => makeRequest.get("/pet?pid="+currentUser.id).then((res)=>{return res.data})
+        () => makeRequest.get("/pet?pid=" + currentUser.id).then((res) => {
+            return res.data
+        })
     );
 
     const matches = [
         {
-            id:1,
-            pet:"Jimmy",
-            child:"",
-            senior:"Mark Rober",
-            date:"2023-1-1",
-            start:"14",
-            end:"16",
+            id: 1,
+            pet: "Jimmy",
+            child: "",
+            senior: "Mark Rober",
+            date: "2023-1-1",
+            start: "14",
+            end: "16",
         }
     ];
-    const seniorList = ["Mark Rober","Guga"];
+    const seniorList = ["Mark Rober", "Guga"];
 
-    const [openChildReg,setChildReg] = useState(false);
-    const [openPetReg,setPetReg] = useState(false);
+    const [openChildReg, setChildReg] = useState(false);
+    const [openPetReg, setPetReg] = useState(false);
 
-    const [openSeniorMatch,setSeniorMatch] = useState(false);
-    const [openPickSenior,setOpenPickSenior] = useState(false);
-    const [openSuccessPage,setOpenSuccessPage] = useState(false);
-    const [selectedMatch,setSelectedMatch] = useState(null);
+    const [openSeniorMatch, setSeniorMatch] = useState(false);
+    const [openPickSenior, setOpenPickSenior] = useState(false);
+    const [openSuccessPage, setOpenSuccessPage] = useState(false);
+    const [selectedMatch, setSelectedMatch] = useState(null);
 
-    const [openChildProfile,setOpenChildProfile] = useState(false);
-    const [clickedChild,setClickChild] = useState(null);
-    const [openPetProfile,setOpenPetProfile] = useState(false);
-    const [clickedPet,setClickPet] = useState(null);
-    const [openMatchProfile,setOpenMatchProfile] = useState(false);
-    const [clickedMatch,setClickMatch] = useState(null);
+    const [openChildProfile, setOpenChildProfile] = useState(false);
+    const [clickedChild, setClickChild] = useState(null);
+    const [openPetProfile, setOpenPetProfile] = useState(false);
+    const [clickedPet, setClickPet] = useState(null);
+    const [openMatchProfile, setOpenMatchProfile] = useState(false);
+    const [clickedMatch, setClickMatch] = useState(null);
 
-    const [openPickUp,setOpenPickUp] = useState(false);
+    const [openPickUp, setOpenPickUp] = useState(false);
 
-    const handleClickChild =(child)=>{
+    const handleClickChild = (child) => {
         setClickChild(child);
         setOpenChildProfile(true);
     }
 
-    const handleClickPet =(pet)=>{
+    const handleClickPet = (pet) => {
         setClickPet(pet);
         setOpenPetProfile(true);
     }
-    const handleClickMatch =(match)=>{
+    const handleClickMatch = (match) => {
         setClickMatch(match);
         setOpenMatchProfile(true);
+    }
+
+    const handleLogOut = async (e) => {
+        e.preventDefault();
+        try {
+            const res = makeRequest.post("/auth/logout");
+            localStorage.removeItem("user");
+            navigate("/login");
+        } catch (err) {
+            console.log(err.response);
+        }
     }
 
     return (
@@ -85,77 +102,86 @@ const ParentProfile= () => {
                     <span> Phone: {currentUser.phone}</span>
                     <span> Email:{currentUser.email}</span>
                 </div>
-                {
-                    cIsLoading ? "Children List Is Loading" :
-                        <div className={"childList"}>
+
+                <div className={"childList"}>
                             <span style={{borderBottom: "solid", padding: "5px"}}>
                                 Child List
                             </span>
-                            {
-                                childList.map((child, i) => (
-                                    <span
-                                        className={"clist"}
-                                        style={{borderBottom: "groove", padding: "5px"}}
-                                        key={i}
-                                        onClick={() => handleClickChild(child)}>
+                    {
+                        cIsLoading ? "Children List Is Loading" :
+
+                            childList.map((child, i) => (
+                                <span
+                                    className={"clist"}
+                                    style={{borderBottom: "groove", padding: "5px"}}
+                                    key={i}
+                                    onClick={() => handleClickChild(child)}>
                                     {child.name}
                                     </span>
-                                ))
-                            }
-                        </div>
-                }
-                {
-                    pIsLoading ?"Pet List Is Loading" :
-                        <div className={"petList"}>
-                            <span style={{borderBottom:"solid",padding:"5px"}}>
+                            ))
+                    }
+                </div>
+
+
+                <div className={"petList"}>
+                            <span style={{borderBottom: "solid", padding: "5px"}}>
                                 Pet List
                             </span>
-                            {
-                                petList.map((pet,i)=>(
-                                    <span
-                                        className={"plist"}
-                                        style={{borderBottom:"groove",padding:"5px"}}
-                                        key={i}
-                                        onClick={()=>handleClickPet(pet)}>
+                    {
+                        pIsLoading ? "Pet List Is Loading" :
+
+                            petList.map((pet, i) => (
+                                <span
+                                    className={"plist"}
+                                    style={{borderBottom: "groove", padding: "5px"}}
+                                    key={i}
+                                    onClick={() => handleClickPet(pet)}>
                                         {pet.name}
                                     </span>
-                                ))
-                            }
-                        </div>
-                }
+                            ))
+                    }
+                </div>
 
 
                 <div className={"scheduleList"}>
-                    <span style={{borderBottom:"solid",padding:"5px"}}>
+                    <span style={{borderBottom: "solid", padding: "5px"}}>
                         Schedule List
                     </span>
                     {
-                        matches.map((match,i)=>(
+                        matches.map((match, i) => (
                             <span
                                 className={"mlist"}
-                                style={{borderBottom:"groove",padding:"5px"}}
+                                style={{borderBottom: "groove", padding: "5px"}}
                                 key={i}
-                                onClick={()=>handleClickMatch(match)}>
-                                {"Match"+match.id}
+                                onClick={() => handleClickMatch(match)}>
+                                {"Match" + match.id}
                             </span>
                         ))
                     }
                 </div>
             </div>
             <div className={"down"}>
-                <button onClick={()=>{setPetReg(true)}}>
+                <button onClick={() => {
+                    setPetReg(true)
+                }}>
                     Pet Registration
                 </button>
-                <button onClick={()=>{setChildReg(true)}}>
+                <button onClick={() => {
+                    setChildReg(true)
+                }}>
                     Child Registration
                 </button>
-                <button onClick={()=>{setSeniorMatch(true)}}>
+                <button onClick={() => {
+                    setSeniorMatch(true)
+                }}>
                     Find a senior
                 </button>
-                <button onClick={()=>{setOpenPickUp(true)}}>
+                <button onClick={() => {
+                    setOpenPickUp(true)
+                }}>
                     Pick Up
                 </button>
-                <button>
+                <button onClick={handleLogOut}>
                     Log Out
                 </button>
             </div>
@@ -163,15 +189,18 @@ const ParentProfile= () => {
             {openPetReg && <PetReg setPetReg={setPetReg}/>}
             {openChildReg && <ChildReg setChildReg={setChildReg}/>}
 
-            {openSeniorMatch && <SeniorMatch setSeniorMatch={setSeniorMatch} setOpenPickSenior={setOpenPickSenior} childList={childList} petList={petList}/>}
-            {openPickSenior && <SeniorPick seniorList={seniorList} setOpenPickSenior={setOpenPickSenior} setOpenSuccessPage={setOpenSuccessPage}/>}
+            {openSeniorMatch &&
+                <SeniorMatch setSeniorMatch={setSeniorMatch} setOpenPickSenior={setOpenPickSenior} childList={childList}
+                             petList={petList}/>}
+            {openPickSenior && <SeniorPick seniorList={seniorList} setOpenPickSenior={setOpenPickSenior}
+                                           setOpenSuccessPage={setOpenSuccessPage}/>}
             {openSuccessPage && <SuccessPage setOpenSuccessPage={setOpenSuccessPage} match={selectedMatch}/>}
 
             {openChildProfile && <ChildProfile setOpenChildProfile={setOpenChildProfile} child={clickedChild}/>}
-            {openPetProfile && <PetProfile setOpenPetProfile={setOpenPetProfile} pet={clickedPet}/> }
-            {openMatchProfile &&<MatchProfile setOpenMatchProfile={setOpenMatchProfile} match={clickedMatch} />}
+            {openPetProfile && <PetProfile setOpenPetProfile={setOpenPetProfile} pet={clickedPet}/>}
+            {openMatchProfile && <MatchProfile setOpenMatchProfile={setOpenMatchProfile} match={clickedMatch}/>}
 
-            {openPickUp && <PickUp setOpenPickUp={setOpenPickUp} matches={matches} />}
+            {openPickUp && <PickUp setOpenPickUp={setOpenPickUp} matches={matches}/>}
         </div>
     )
 }

@@ -45,8 +45,7 @@ const Login =() => {
         e.preventDefault();
         try {
             await login(newInput);
-
-            // navigate("/")
+            navigate("/seniorProfile")
         }catch (err){
             setErr(err.response.data);
         }

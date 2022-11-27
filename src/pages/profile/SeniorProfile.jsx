@@ -1,34 +1,48 @@
-import React,{useState} from "react"
+import React,{useContext,useState} from "react"
 import "./seniorprofile.scss"
 import SignUpTimeSlot from "../../components/signup/SignUpTimeSlot";
 import MatchProfile from "../../components/profile/MatchProfile";
+
+import {AuthContext} from "../../context/authContext";
+import {makeRequest} from "../../axios";
+import {useQuery} from "@tanstack/react-query";
+import {useNavigate} from "react-router-dom";
+
 const SeniorProfile= () => {
-    const currentUser = {
-        name: "Max Rober",
-        location: "Pittsburgh",
-        phone: "123-456-789",
-    };
-    const freeTimeList = [[2023,1,3,14,16],[2023,1,4,15,16]]
-    const matches = [
-        {
-            id:1,
-            pet:"Jimmy",
-            child:"",
-            senior:"Mark Rober",
-            date:"2023-1-1",
-            start:"14",
-            end:"16",
-        }
-    ];
+    const navigate = useNavigate();
+    const {currentUser} = useContext(AuthContext);
+
+    // Query Free Time Slot
+    const { isLoading:tIsLoading, error:tError, data:freeTimeList } = useQuery(
+        ['time'],
+        () => makeRequest.get("/time?sid="+currentUser.id).then((res)=>{return res.data})
+    );
+
+    // Query Match
+    const { isLoading:mIsLoading, error:mError, data:matchList} = useQuery(
+        ['match'],
+        () => makeRequest.get("/match/senior?sid="+currentUser.id).then((res)=>{return res.data})
+    );
 
     const [openSignUp,setOpenSignUp] = useState(false);
 
     const [openMatch,setOpenMatch] = useState(false);
-    const [clickedMatch,setClickMatch] = useState(matches[0]);
+    const [clickedMatch,setClickMatch] = useState(null);
 
     const handleClickMatch =(match)=>{
         setClickMatch(match);
         setOpenMatch(true);
+    }
+
+    const handleLogOut =async (e)=>{
+        e.preventDefault();
+        try {
+            const res = makeRequest.post("/auth/logout");
+            localStorage.removeItem("user");
+            navigate("/login");
+        } catch (err) {
+            console.log(err.response);
+        }
     }
 
     return (
@@ -37,35 +51,41 @@ const SeniorProfile= () => {
             <div className={"middle"}>
                 <div className={"Info"}>
                     <span> Name :{currentUser.name}</span>
-                    <span> Location : {currentUser.location}</span>
+                    <span> Age: {currentUser.age}</span>
+                    <span> Gender: {currentUser.gender}</span>
+                    <span> Allergy Pet : {currentUser.allergy}</span>
+                    <span> Address : {currentUser.address}</span>
                     <span> Phone: {currentUser.phone}</span>
+                    <span> Email:{currentUser.email}</span>
                 </div>
                 <div className={"freeList"}>
 
                     <span style={{borderBottom:"solid",padding:"5px"}}>
                         Free Time List
                     </span>
-
                     {
-                        freeTimeList.map((slot,i)=>(<span style={{borderBottom:"groove",padding:"5px"}} key={i}>
-                            {slot[0]+"/"+slot[1]+"/"+slot[2]+": "+slot[3]+"-"+slot[4]}
+                        tIsLoading? "Time Slot is loading":
+                        freeTimeList.map((time,i)=>(<span style={{borderBottom:"groove",padding:"5px"}} key={i}>
+                            {time.year+"/"+time.month+"/"+time.day+": "+time.start+"-"+time.end}
                         </span>))
                     }
 
                 </div>
+
                 <div className={"scheduleList"}>
                     <span style={{borderBottom:"solid",padding:"5px"}}>
                         Schedule List
                     </span>
 
                     {
-                        matches.map((match,i)=>(
+                        mIsLoading? "Schedule List is loading":
+                        matchList.map((match,i)=>(
                             <span
                                 style={{borderBottom:"groove",padding:"5px"}}
                                 key={i}
-                                onClick={()=>handleClickMatch(match)}
+                                onClick={()=>handleClickMatch({...match,sName:currentUser.name})}
                             >
-                            {"Match"+match.id}
+                            {"Match"+match.mid}
                             </span>
                         ))
                     }
@@ -75,7 +95,7 @@ const SeniorProfile= () => {
                 <button onClick={()=>setOpenSignUp(true)}>
                     Sign Up Time Slot
                 </button>
-                <button>
+                <button onClick={handleLogOut}>
                     Log Out
                 </button>
             </div>
