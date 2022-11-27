@@ -1,6 +1,6 @@
 import "./picksenior.scss"
 
-const SeniorPick =({setOpenPickSenior,setOpenSuccessPage,seniorList})=>{
+const SeniorPick =({setOpenPickSenior,setOpenSuccessPage,seniors})=>{
     return (
         <div className={"pick"}>
             <div className="wrapper">
@@ -9,11 +9,11 @@ const SeniorPick =({setOpenPickSenior,setOpenSuccessPage,seniorList})=>{
                     <label>Pick a senior</label>
                     <div className={"senior"}>
                     {
-                        seniorList.map((senior,i)=>(
+                        seniors.map((senior,i)=>(
                             <div className={"pair"} key={i}>
-                                <input type={"radio"} name={"senior"} value={senior}/>
+                                <input type={"radio"} name={"senior"} value={senior.sid}/>
                                 <label className={"radio"}>
-                                    {senior}
+                                    {senior.name}
                                 </label>
                             </div>
                         ))

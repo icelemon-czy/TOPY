@@ -41,7 +41,7 @@ const ParentProfile= () => {
         () => makeRequest.get("/match/parent?pid="+currentUser.id).then((res)=>{return res.data})
     );
 
-    const seniorList = ["Mark Rober", "Guga"];
+    const [seniors,setSeniors] = useState(null);
 
     const [openChildReg, setChildReg] = useState(false);
     const [openPetReg, setPetReg] = useState(false);
@@ -186,9 +186,9 @@ const ParentProfile= () => {
             {openChildReg && <ChildReg setChildReg={setChildReg}/>}
 
             {openSeniorMatch &&
-                <SeniorMatch setSeniorMatch={setSeniorMatch} setOpenPickSenior={setOpenPickSenior} childList={childList}
-                             petList={petList}/>}
-            {openPickSenior && <SeniorPick seniorList={seniorList} setOpenPickSenior={setOpenPickSenior}
+                <SeniorMatch setSeniorMatch={setSeniorMatch} setOpenPickSenior={setOpenPickSenior} setSeniors={setSeniors}
+                             childList={childList} petList={petList}/>}
+            {openPickSenior && <SeniorPick seniors={seniors} setOpenPickSenior={setOpenPickSenior}
                                            setOpenSuccessPage={setOpenSuccessPage}/>}
             {openSuccessPage && <SuccessPage setOpenSuccessPage={setOpenSuccessPage} match={selectedMatch}/>}
 
