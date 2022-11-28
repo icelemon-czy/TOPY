@@ -1,10 +1,8 @@
 import "./seniormatch.scss";
 import {useState} from "react";
-import {useQuery} from "@tanstack/react-query";
-import {makeRequest} from "../../axios";
 import axios from "axios";
 
-const SeniorMatch=({setSeniorMatch,setOpenPickSenior,setSeniors,childList,petList})=>{
+const SeniorMatch=({setSeniorMatch,setOpenPickSenior,setSeniors,setCurrentMatch,childList,petList})=>{
     const today = new Date();
     const dd = String(today.getDate()).padStart(2, '0');
     const mm = String(today.getMonth() + 1).padStart(2, '0'); //January is 0!
@@ -27,6 +25,7 @@ const SeniorMatch=({setSeniorMatch,setOpenPickSenior,setSeniors,childList,petLis
         const newInput = inputs;
         newInput[e.target.name] = e.target.value;
         setInputs(newInput);
+        setCurrentMatch(newInput);
     }
 
     const handleDateChange = (e) =>{
@@ -36,6 +35,7 @@ const SeniorMatch=({setSeniorMatch,setOpenPickSenior,setSeniors,childList,petLis
         newInput["month"]  = newDate.split("-")[1];
         newInput["day"]= newDate.split("-")[2];
         setInputs(newInput);
+        setCurrentMatch(newInput);
     }
 
     const handleHourChange = (e)=>{
@@ -45,18 +45,21 @@ const SeniorMatch=({setSeniorMatch,setOpenPickSenior,setSeniors,childList,petLis
                 newInput.start = parseInt(e.target.value);
                 newInput.end = parseInt(e.target.value);
                 setInputs(newInput);
+                setCurrentMatch(newInput);
                 setErr(null);
                 return;
             }
             if(inputs.start -1 == parseInt(e.target.value)){
                 newInput.start = parseInt(e.target.value);
                 setInputs(newInput);
+                setCurrentMatch(newInput);
                 setErr(null);
                 return;
             }
             if(inputs.end+1 == parseInt(e.target.value)){
                 newInput.end = parseInt(e.target.value);
                 setInputs(newInput);
+                setCurrentMatch(newInput);
                 setErr(null);
                 return;
             }
@@ -68,17 +71,20 @@ const SeniorMatch=({setSeniorMatch,setOpenPickSenior,setSeniors,childList,petLis
                     newInput.start= 0;
                     newInput.end = 0;
                     setInputs(newInput);
+                    setCurrentMatch(newInput);
                     setErr(null);
                     return;
                 }
                 newInput.start = inputs.start+1;
                 setInputs(newInput);
+                setCurrentMatch(newInput);
                 setErr(null);
                 return;
             }
             if(inputs.end == parseInt(e.target.value)){
                 newInput.end = inputs.end-1;
                 setInputs(newInput);
+                setCurrentMatch(newInput);
                 setErr(null);
                 return;
             }
@@ -86,8 +92,6 @@ const SeniorMatch=({setSeniorMatch,setOpenPickSenior,setSeniors,childList,petLis
             e.target.checked = true;
         }
     }
-
-
 
     const handleClick = async (e)=>{
         e.preventDefault();
@@ -102,13 +106,63 @@ const SeniorMatch=({setSeniorMatch,setOpenPickSenior,setSeniors,childList,petLis
         // Match Process
         // Case 1 only pet  (TimeSlot == 0 or 1)
         if(inputs.child == null){
-
+            try {
+                const data = await axios.get("http://localhost:8801/api/time/pet", {
+                    params: {
+                        pet: inputs.pet,
+                        year: inputs.year,
+                        month: inputs.month,
+                        day: inputs.day,
+                        start: inputs.start,
+                        end: inputs.end+1,
+                    },
+                    withCredentials:true,
+                }).then(
+                    (res) => {
+                        return res.data;
+                    }
+                );
+                setSeniors(data);
+                if(data.length > 0){
+                    setOpenPickSenior(true);
+                    setSeniorMatch(false);
+                }else{
+                    setErr("Can not find available seniors");
+                }
+            }catch (err){
+                setErr(err);
+            }
             return;
         }
 
         // Case 2 only child (TimeSolot == 0 or 2)
         if(inputs.pet == null){
-
+            try {
+                const data = await axios.get("http://localhost:8801/api/time/child", {
+                    params: {
+                        child: inputs.child,
+                        year: inputs.year,
+                        month: inputs.month,
+                        day: inputs.day,
+                        start: inputs.start,
+                        end: inputs.end+1,
+                    },
+                    withCredentials:true,
+                }).then(
+                    (res) => {
+                        return res.data;
+                    }
+                );
+                setSeniors(data);
+                if(data.length > 0){
+                    setOpenPickSenior(true);
+                    setSeniorMatch(false);
+                }else{
+                    setErr("Can not find available seniors");
+                }
+            }catch (err){
+                setErr(err);
+            }
             return;
         }
 
@@ -122,7 +176,7 @@ const SeniorMatch=({setSeniorMatch,setOpenPickSenior,setSeniors,childList,petLis
                     month: inputs.month,
                     day: inputs.day,
                     start: inputs.start,
-                    end: inputs.end,
+                    end: inputs.end+1,
                 },
                 withCredentials:true,
             }).then(

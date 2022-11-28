@@ -18,6 +18,16 @@ import {useNavigate} from "react-router-dom";
 const ParentProfile= () => {
     const navigate = useNavigate();
     const {currentUser} = useContext(AuthContext);
+    const[currentMatch,setCurrentMatch] = useState({
+        child:null,
+        pet:null,
+        year: 2022,
+        month: 12,
+        day:31,
+        start:0,
+        end:0,
+    });
+    const[matchSenior,setMatchSenior] = useState(null);
 
     // Query Children
     const {isLoading: cIsLoading, error: cError, data: childList} = useQuery(
@@ -186,17 +196,37 @@ const ParentProfile= () => {
             {openChildReg && <ChildReg setChildReg={setChildReg}/>}
 
             {openSeniorMatch &&
-                <SeniorMatch setSeniorMatch={setSeniorMatch} setOpenPickSenior={setOpenPickSenior} setSeniors={setSeniors}
-                             childList={childList} petList={petList}/>}
-            {openPickSenior && <SeniorPick seniors={seniors} setOpenPickSenior={setOpenPickSenior}
-                                           setOpenSuccessPage={setOpenSuccessPage}/>}
-            {openSuccessPage && <SuccessPage setOpenSuccessPage={setOpenSuccessPage} match={selectedMatch}/>}
+                <SeniorMatch setSeniorMatch={setSeniorMatch}
+                             setOpenPickSenior={setOpenPickSenior}
+                             setSeniors={setSeniors}
+                             setCurrentMatch={setCurrentMatch}
+                             childList={childList}
+                             petList={petList}/>}
 
-            {openChildProfile && <ChildProfile setOpenChildProfile={setOpenChildProfile} child={clickedChild}/>}
-            {openPetProfile && <PetProfile setOpenPetProfile={setOpenPetProfile} pet={clickedPet}/>}
-            {openMatchProfile && <MatchProfile setOpenMatchProfile={setOpenMatchProfile} match={clickedMatch}/>}
+            {openPickSenior && <SeniorPick seniors={seniors}
+                                           matchInfo={currentMatch}
+                                           setOpenPickSenior={setOpenPickSenior}
+                                           setOpenSuccessPage={setOpenSuccessPage}
+                                           setMatchSenior={setMatchSenior}/>}
 
-            {openPickUp && <PickUp setOpenPickUp={setOpenPickUp} matches={matches}/>}
+            {openSuccessPage && <SuccessPage setOpenSuccessPage={setOpenSuccessPage}
+                                             match={currentMatch}
+                                             senior={matchSenior}
+                                             childList={childList}
+                                             petList={petList}
+            />}
+
+            {openChildProfile && <ChildProfile setOpenChildProfile={setOpenChildProfile}
+                                               child={clickedChild}/>}
+
+            {openPetProfile && <PetProfile setOpenPetProfile={setOpenPetProfile}
+                                           pet={clickedPet}/>}
+
+            {openMatchProfile && <MatchProfile setOpenMatchProfile={setOpenMatchProfile}
+                                               match={clickedMatch}/>}
+
+            {openPickUp && <PickUp setOpenPickUp={setOpenPickUp}
+                                   matches={matches}/>}
         </div>
     )
 }
