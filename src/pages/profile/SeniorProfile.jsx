@@ -67,6 +67,7 @@ const SeniorProfile= () => {
                         tIsLoading? "Time Slot is loading":
                         freeTimeList.map((time,i)=>(<span style={{borderBottom:"groove",padding:"5px"}} key={i}>
                             {time.year+"/"+time.month+"/"+time.day+": "+time.start+"-"+time.end}
+                            {time.type==0 ? "(Both)" : time.type==1 ?"(Pet)":"(Child)"}
                         </span>))
                     }
 
@@ -85,7 +86,7 @@ const SeniorProfile= () => {
                                 key={i}
                                 onClick={()=>handleClickMatch({...match,sName:currentUser.name})}
                             >
-                            {"Match"+match.mid}
+                            {"Match"+(i+1)}
                             </span>
                         ))
                     }
