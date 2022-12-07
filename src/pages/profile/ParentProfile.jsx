@@ -167,27 +167,27 @@ const ParentProfile= () => {
                 </div>
             </div>
             <div className={"down"}>
-                <button onClick={() => {
+                <button style={{background:"#f1e1ab"}} onClick={() => {
                     setPetReg(true)
                 }}>
                     Pet Registration
                 </button>
-                <button onClick={() => {
+                <button style={{background:"#f1e1ab"}} onClick={() => {
                     setChildReg(true)
                 }}>
                     Child Registration
                 </button>
-                <button onClick={() => {
+                <button style={{background:"#3dfcc5"}} onClick={() => {
                     setSeniorMatch(true)
                 }}>
                     Find a senior
                 </button>
-                <button onClick={() => {
+                <button style={{background:"#65bcd7"}} onClick={() => {
                     setOpenPickUp(true)
                 }}>
                     Pick Up
                 </button>
-                <button onClick={handleLogOut}>
+                <button style={{background:"#9c98a9"}} onClick={handleLogOut}>
                     Log Out
                 </button>
             </div>

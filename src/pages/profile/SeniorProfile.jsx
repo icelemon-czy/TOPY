@@ -92,10 +92,10 @@ const SeniorProfile= () => {
                 </div>
             </div>
             <div className={"down"}>
-                <button onClick={()=>setOpenSignUp(true)}>
+                <button style={{background:"#3dfcc5"}} onClick={()=>setOpenSignUp(true)}>
                     Sign Up Time Slot
                 </button>
-                <button onClick={handleLogOut}>
+                <button style={{background:"#9c98a9"}} onClick={handleLogOut}>
                     Log Out
                 </button>
             </div>
