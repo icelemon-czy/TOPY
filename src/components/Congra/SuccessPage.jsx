@@ -1,5 +1,6 @@
 import "./successpage.scss"
-
+import {Fireworks} from "@fireworks-js/react";
+import React from "react";
 const SuccessPage=({setOpenSuccessPage,match,senior,petList,childList})=>{
     // Conversion
     //const pName = match
@@ -35,6 +36,22 @@ const SuccessPage=({setOpenSuccessPage,match,senior,petList,childList})=>{
                     You have successfully register {cName} {cName &&pName && "and"} {pName} <br />
                     with {senior} from {match.start} to {match.end+1} at {" "+match.year+"/"+match.month+"/"+match.day}
                 </p>
+                <Fireworks
+                    options={{
+                        rocketsPoint: {
+                            min: 0,
+                            max: 100
+                        }
+                    }}
+                    style={{
+                        top: 0,
+                        left: 0,
+                        width: '100%',
+                        height: '100%',
+                        position: 'fixed',
+                        background: "transparent"
+                    }}
+                />
                 <button className="close" onClick={ ()=> setOpenSuccessPage(false) }>
                     close
                 </button>

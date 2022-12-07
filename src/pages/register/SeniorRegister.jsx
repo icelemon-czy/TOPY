@@ -13,7 +13,9 @@ const SeniorRegister = () => {
         gender:"",
         phone:"",
         address:"",
+        ssn:"",
     });
+
     const[err,setErr] = useState(null);
 
     const handleChange = (e) =>{
@@ -23,8 +25,35 @@ const SeniorRegister = () => {
         setInputs(newInput);
     }
 
+    /**
+     * First Pass the Background Check
+     * Then register the senior
+     */
     const handleClick = async (e) =>{
         e.preventDefault();
+        if(inputs.ssn == ""){
+            setErr("Please provide SSN and pass the background check!");
+            return;
+        }
+        try {
+            const data = await axios.get("http://localhost:8801/api/auth/senior/check", {
+                params:{
+                    ssn:inputs.ssn,
+                }
+            }).then(
+                (res) => {
+                    return res.data;
+                }
+            );
+            if(data == 1){
+                setErr("Doesn't pass background check");
+                return;
+            }
+        } catch (err) {
+            setErr(err.response.data);
+            return;
+        }
+
         try {
             await axios.post("http://localhost:8801/api/auth/senior/register", inputs);
             setErr("Register Success! ");
@@ -60,6 +89,7 @@ const SeniorRegister = () => {
                         <input type="text" placeholder="Gender" name={"gender"} onChange={handleChange}/>
                         <input type="text" placeholder="Phone" name={"phone"} onChange={handleChange}/>
                         <input type="text" placeholder="Address" name={"address"} onChange={handleChange}/>
+                        <input type={"number"} placeholder={"SSN for background check"} name={"ssn"} onChange={handleChange}/>
                         {err && err}
                         <button onClick={handleClick}>Register</button>
                     </form>
