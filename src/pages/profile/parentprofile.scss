@@ -1,9 +1,9 @@
 .profile{
   display: flex;
+  background-color: rgb(193,190,255);
   flex-direction: column;
   align-items: center;
   gap:35px;
-  background-color: white;
 
   h1{
     font-size: 30px;
@@ -61,8 +61,8 @@
     gap:30px;
     button{
       border:none;
-      color: black;
-      background-color: lightgreen;
+      color: #8c031d;
+      background-color: #dcd3da;
       cursor:pointer;
       border-radius: 3px;
     }
